@@ -4,12 +4,13 @@ import axios from 'axios'
 // import { AppContext } from '../contexts/appContext'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { AppContext } from '../contexts/AppContext'
 
 
 const Login = () => {
     const navigate = useNavigate()
     const [state,setState] = useState("signup")
-    // const { backendUrl } = useContext(AppContext)
+    const { backendUrl } = useContext(AppContext)
     const [username,setUsername] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
@@ -18,7 +19,7 @@ const Login = () => {
         event.preventDefault();
         try {
             if(state == 'signup'){
-                const {data} = await axios.post('http://localhost:8000/api/auth/register', {name:username,email,password}, {headers:{'Content-Type':"application/json"}, withCredentials:true})
+                const {data} = await axios.post(backendUrl + '/api/auth/register', {name:username,email,password}, {headers:{'Content-Type':"application/json"}, withCredentials:true})
             if(data.success){
                 // toast.success(data.message)
                 setUsername('');
@@ -29,7 +30,7 @@ const Login = () => {
                 toast.error(data.message)
             }
             } else{
-                const {data} = await axios.post('http://localhost:8000/api/auth/login', {email,password}, {headers:{'Content-Type':"application/json"}, withCredentials:true})
+                const {data} = await axios.post(backendUrl + '/api/auth/login', {email,password}, {headers:{'Content-Type':"application/json"}, withCredentials:true})
             if(data.success){
                 // toast.success(data.message)
                 setUsername('');
@@ -40,7 +41,6 @@ const Login = () => {
                 toast.error(data.message)
             }
             }
-
         } catch (error) {
             toast.error(error.message)
         }
