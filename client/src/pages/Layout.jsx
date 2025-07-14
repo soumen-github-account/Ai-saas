@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react'
 import Sidebar from '../components/Sidebar'
 import { useUser, SignIn } from '@clerk/clerk-react'
 import Login from './Login'
-import { AppContext } from '../contexts/appContext'
+import { AppContext } from '../contexts/AppContext'
 
 const Layout = () => {
   const navigate = useNavigate()
