@@ -3,7 +3,7 @@ import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
-import { AppContext } from '../contexts/appContext'
+import { AppContext } from '../contexts/AppContext'
 import { MdStars } from "react-icons/md";
 
 const Navbar = () => {

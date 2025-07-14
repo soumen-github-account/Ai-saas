@@ -5,7 +5,7 @@ import img from '../assets/ai_gen_img_1.png'
 import { dummyPublishedCreationData } from '../assets/assets';
 import axios from 'axios'
 import toast from 'react-hot-toast';
-import { AppContext } from '../contexts/appContext';
+import { AppContext } from '../contexts/AppContext';
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { AiToolsData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
-import { AppContext } from '../contexts/appContext'
+import { AppContext } from '../contexts/AppContext'
 
 const Aitools = () => {
     const navigate = useNavigate()
