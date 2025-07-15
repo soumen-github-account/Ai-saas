@@ -10,11 +10,11 @@ import { AppContext } from '../contexts/AppContext'
 const Login = () => {
     const navigate = useNavigate()
     const [state,setState] = useState("signup")
-    const { backendUrl } = useContext(AppContext)
+    const { backendUrl,getUserData } = useContext(AppContext)
     const [username,setUsername] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
-    
+
 
     const onSubmitHandler = async(event)=>{
         event.preventDefault();
@@ -27,6 +27,7 @@ const Login = () => {
                 setEmail('');
                 setPassword('');
                 navigate('/')
+                getUserData()
             } else{
                 toast.error(data.message)
             }
@@ -38,6 +39,7 @@ const Login = () => {
                 setEmail('');
                 setPassword('');
                 navigate('/')
+                getUserData()
             } else{
                 toast.error(data.message)
             }
