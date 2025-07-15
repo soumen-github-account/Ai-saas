@@ -1,10 +1,58 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
 const PriceTable = () => {
-    const { user } = useContext(AppContext)
+    const { user, backendUrl } = useContext(AppContext)
     const navigate = useNavigate()
+
+    const initPay = async(order)=>{
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: order.amount,
+            currency: order.currency,
+            name: 'Credits Payment',
+            Description: 'Credit Payment',
+            order_id: order.id,
+            receipt: order.receipt,
+            handler: async(response)=>{
+                console.log(response)
+                try {
+                    const {data} = await axios.post(backendUrl + '/api/user/verify-razorpay', response, {withCredentials: true})
+                    if(data.success){
+                        navigate('/');
+                        toast.success('Credit Added')
+                    } else{
+                        toast.error(data.message)
+                    }
+                } catch (error) {
+                    toast.error(error.message);
+                }
+            }
+        }
+
+        const rzp = new window.Razorpay(options);
+        rzp.open()
+    }
+
+    const paymentRazorpay = async(planId) =>{
+        
+        try {
+            console.log("hello")
+            if(!user){
+                navigate('/login')
+            }
+            const {data} = await axios.post(backendUrl + '/api/user/pay-razorpay',{planId} ,{withCredentials: true})
+            if(data.success){
+                initPay(data.order)
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
+    }
 
     return (
         <div className="flex flex-wrap items-center justify-center gap-6">
@@ -43,7 +91,7 @@ const PriceTable = () => {
                     ))}
                 </ul>
                 <button
-                    onClick={() => !user ? navigate('/login') : navigate('/ai')}
+                    onClick={() =>{user ? paymentRazorpay("Premium") : navigate('/login')}}
                     type="button"
                     className="bg-white text-sm w-full cursor-pointer py-2 rounded text-primary font-medium mt-7 hover:bg-gray-200 transition-all"
                 >
@@ -66,6 +114,7 @@ const PriceTable = () => {
                     ))}
                 </ul>
                 <button
+                    onClick={() =>{user ? paymentRazorpay("Advanced") : navigate('/login')}}
                     type="button"
                     className="bg-primary cursor-pointer text-sm w-full py-2 rounded text-white font-medium mt-7 hover:bg-indigo-600 transition-all"
                 >

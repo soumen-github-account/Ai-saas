@@ -1,6 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets';
+import Brand from './Brand';
+
 
 const Hero = () => {
     const navigate = useNavigate();
@@ -23,6 +25,10 @@ const Hero = () => {
         <img src={assets.user_group} alt="" className='h-8'/>
         Trusted by 10k+ people
       </div>
+      <div className='md:absolute bottom-20 left-50 md:mt-0 mt-20'>
+        <Brand />
+      </div>
+      
     </div>
   )
 }

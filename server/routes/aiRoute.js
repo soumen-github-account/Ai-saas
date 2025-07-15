@@ -1,6 +1,5 @@
 
 import express from 'express'
-// import { auth } from '../middlewares/auth.js';
 import { generateArticle, generateBlogTitle, generateImage, removeImageBackground, removeImageObject, resumeReview } from '../controllers/aiController.js';
 import { upload } from '../config/multer.js';
 import isAuthentication from '../middlewares/userAuth.js';

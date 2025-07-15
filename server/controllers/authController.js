@@ -78,17 +78,39 @@ export const login = async (req,res)=>{
     }
 }
 
-export const logout = async(req,res)=>{
+// export const logout = async(req,res)=>{
+//     try {
+//         return res.cookie("token", "", { maxAge: 0 }).json({
+//             message: 'Logged out successfully.',
+//             success: true
+//         });
+//     } catch (error) {
+//         res.json({success:false, message:error.message})
+        
+//     }
+// }
+
+
+export const logout = async (req, res) => {
     try {
-        return res.cookie("token", "", { maxAge: 0 }).json({
-            message: 'Logged out successfully.',
-            success: true
+        res.cookie("token", "", {
+            httpOnly: true,
+            // secure: true, // optional: set to true if using HTTPS
+            sameSite: "lax", // or "strict" / "none" depending on your setup
+            expires: new Date(0) // alternative to maxAge: 0
+        });
+
+        res.json({
+            success: true,
+            message: "Logged out successfully."
         });
     } catch (error) {
-        res.json({success:false, message:error.message})
-        
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
-}
+};
 
 
 
