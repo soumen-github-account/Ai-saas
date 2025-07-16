@@ -1,6 +1,5 @@
 import express from 'express'
 import { getPublishedCreations, getUserCreations, getUserData, paymentRazorpay, toggleLikeCreations, verifyRazorpay } from '../controllers/userController.js';
-// import { auth } from '../middlewares/auth.js';
 import isAuthentication from '../middlewares/userAuth.js';
 const userRouter = express.Router();
 

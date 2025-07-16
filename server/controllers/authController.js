@@ -24,7 +24,7 @@ export const register = async (req,res)=>{
         
         res.cookie('token', token, {
         httpOnly: true,
-        secure: false,              // required for cross-origin cookies on HTTPS
+        secure: true,              // required for cross-origin cookies on HTTPS
         sameSite: 'None',          // allow cross-site cookie
         maxAge: 7 * 24 * 60 * 60 * 1000
         })
@@ -65,53 +65,41 @@ export const login = async (req,res)=>{
 
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d'});
         
+        // res.cookie('token', token, {
+        // httpOnly: true,
+        // secure: true,              // required for cross-origin cookies on HTTPS
+        // sameSite: 'None',          // allow cross-site cookie
+        // maxAge: 7 * 24 * 60 * 60 * 1000
+        // })
         res.cookie('token', token, {
         httpOnly: true,
-        secure: true,              // required for cross-origin cookies on HTTPS
-        sameSite: 'None',          // allow cross-site cookie
+        secure: true,         // ✅ false for localhost
+        sameSite: 'None',       // ✅ Lax or Strict is fine on localhost
         maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-
+        });
         return res.json({success: true});
     }catch(error){
         res.json({seccess: false, message: error.message})
     }
 }
 
-// export const logout = async(req,res)=>{
-//     try {
-//         return res.cookie("token", "", { maxAge: 0 }).json({
-//             message: 'Logged out successfully.',
-//             success: true
-//         });
-//     } catch (error) {
-//         res.json({success:false, message:error.message})
-        
-//     }
-// }
-
 
 export const logout = async (req, res) => {
-    try {
-        res.cookie("token", "", {
-            httpOnly: true,
-            // secure: true, // optional: set to true if using HTTPS
-            sameSite: "lax", // or "strict" / "none" depending on your setup
-            expires: new Date(0) // alternative to maxAge: 0
-        });
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,         // ✅ false for localhost
+      sameSite: 'None',       // ✅ Lax works on localhost
+    });
 
-        res.json({
-            success: true,
-            message: "Logged out successfully."
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    return res.json({
+      success: true,
+      message: "Logged out successfully."
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
 };
-
 
 
 // send email verification 

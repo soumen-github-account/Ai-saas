@@ -43,7 +43,7 @@ const Navbar = () => {
       {/* <button onClick={()=>navigate('/login')} className='flex items-center gap-2 rounded-full text-sm cursor-pointer bg-primary text-white px-10 py-2.5'>Get started <ArrowRight className='w-4 h-4' /></button> */}
       {
         open ? 
-        <div className='absolute right-30 max-sm:right-10 top-20 max-w-80 bg-gray-50 shadow-md max-h-60 p-3'>
+        <div className='absolute right-30 max-sm:right-10 top-20 min-w-50 bg-gray-50 shadow-md max-h-60 p-3'>
           <RxCross2 onClick={()=>setOpen(false)} className='text-[24px] text-gray-500 font-bold absolute right-2 top-2 cursor-pointer hover:text-gray-600' />
           <div className='flex items-center gap-x-4 pr-30'>
             <div className='rounded-full flex items-center justify-center bg-primary text-white w-10 h-10 cursor-pointer'>{user?.email?.charAt(0).toUpperCase()}</div> 

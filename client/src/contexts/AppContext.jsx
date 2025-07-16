@@ -12,22 +12,42 @@ const AppContextProvider = (props) =>{
     const navigate = useNavigate()
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    const getUserData = async()=>{
-        try {
-            const {data} = await axios.get(backendUrl + '/api/user/get-user', {withCredentials: true})
-            if(data.success){
-                setUser(data.userData);
-            } else{
-                toast.error(data.message);
-            }
-        } catch (error) {
-            toast.error(error.message)
+    // const getAuthState = async ()=>{
+    //     try {
+    //         const {data} = await axios.get(backendUrl + '/api/auth/is-auth', {
+    //             withCredentials: true,
+    //           })
+    //         if(data.success){
+    //             // setIsLoggedin(true)
+    //             getUserData()
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.message)
+    //     }
+    // }
+
+    const getUserData = async () => {
+    try {
+        const { data } = await axios.get(backendUrl + '/api/user/get-user', {
+        withCredentials: true,
+        });
+
+        if (data.success) {
+        setUser(data.userData);
+        } else {
+        setUser(false); // ✅ Clear user on failure
+        // Optionally show toast if you want
         }
+    } catch (error) {
+        setUser(false); // ✅ Clear user on error
+        // toast.error(error.message); // optional
     }
+    };
+
 
     const logOut = async()=>{
         try {
-            const {data} = await axios.post(backendUrl + '/api/auth/logout', {withCredentials:true})
+            const {data} = await axios.post(backendUrl + '/api/auth/logout',{}, {withCredentials:true})
             if(data.success){
                 setUser(false);
                 navigate('/')
@@ -36,13 +56,18 @@ const AppContextProvider = (props) =>{
                 toast.error(data.message)
             }
         } catch (error) {
-            toast.error(error.message)
+            if (error.response && error.response.status === 401) {
+            // Not logged in — don't show a toast, just silently ignore
+            setUser(false);
+            } else {
+                toast.error(error.message || "An error occurred while fetching user data.");
+            }
         }
     }
 
     useEffect(()=>{
         getUserData();
-    },[])
+    },[]);
 
     const value = {
         backendUrl, user , getUserData, logOut
