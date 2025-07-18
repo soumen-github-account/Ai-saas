@@ -11,6 +11,7 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 const Dashboard = () => {
   const [creations, setCreations] = useState([])
   const [loading, setLoading] = useState(true)
+  const [downLoading, setDownLoading] = useState(false)
   // const { getToken } = useAuth();
 
 
@@ -32,6 +33,28 @@ const Dashboard = () => {
   useEffect(()=>{
     getDashboardData();
   }, [])
+
+    const handleDownload = async () => {
+      if (!content) return;
+
+      try {
+        setDownLoading(true);
+
+        const link = document.createElement("a");
+        link.href = content;
+        link.download = "generated-image.jpg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast.success("Image download started. Check your Downloads folder.");
+      } catch (err) {
+        toast.error("Failed to download");
+      } finally {
+        setDownLoading(false);
+      }
+    };
+
 
   return (
     <div className='h-full overflow-y-scroll p-6'>

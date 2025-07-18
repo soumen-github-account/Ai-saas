@@ -14,6 +14,7 @@ const RemoveObject = () => {
     const [object, setObject] = useState('')
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('')
+    const [downLoading, setDownLoading] = useState(false)
   
     // const {getToken} = useAuth();
     
@@ -42,6 +43,10 @@ const RemoveObject = () => {
       }
       setLoading(false);
     }
+
+    // Use this to force download
+    const downloadUrl = content?.replace('/upload/', '/upload/fl_attachment/');
+
 
   return (
     <div className='h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700'>
@@ -72,6 +77,22 @@ const RemoveObject = () => {
           <div className='flex items-center gap-3'>
             <Scissors className='w-5 h-5 text-[#4A7AFF]' />
             <h1 className='text-xl font-semibold'>Processed Image</h1>
+            {
+              content && 
+            <a
+              href={downloadUrl}
+              download
+              className='flex justify-center items-center border-2 border-black gap-2 rounded-full text-black px-4 py-1 md:ml-10 ml-4 text-sm cursor-pointer'
+            >
+              {
+                downLoading ? (
+                  <span className='w-3 h-3 my-1 rounded-full border-2 border-t-transparent animate-spin'></span>
+                ) : (
+                  "Download"
+                )
+              }
+            </a>
+          }
           </div>
           {
             !content ? (

@@ -54,6 +54,10 @@ const PriceTable = () => {
         }
     }
 
+    const tost = async()=>{
+        toast.error("Disabled for demo");
+    }
+
     return (
         <div className="flex flex-wrap items-center justify-center gap-6">
             {/* Free Plan */}
@@ -90,8 +94,9 @@ const PriceTable = () => {
                         </li>
                     ))}
                 </ul>
+                {/* paymentRazorpay("Premium") */}
                 <button
-                    onClick={() =>{user ? paymentRazorpay("Premium") : navigate('/login')}}
+                    onClick={() =>{user ? tost() : navigate('/login')}}
                     type="button"
                     className="bg-white text-sm w-full cursor-pointer py-2 rounded text-primary font-medium mt-7 hover:bg-gray-200 transition-all"
                 >
@@ -113,8 +118,9 @@ const PriceTable = () => {
                         </li>
                     ))}
                 </ul>
+                {/* paymentRazorpay("Advanced") */}
                 <button
-                    onClick={() =>{user ? paymentRazorpay("Advanced") : navigate('/login')}}
+                    onClick={() =>{user ? tost() : navigate('/login')}}
                     type="button"
                     className="bg-primary cursor-pointer text-sm w-full py-2 rounded text-white font-medium mt-7 hover:bg-indigo-600 transition-all"
                 >

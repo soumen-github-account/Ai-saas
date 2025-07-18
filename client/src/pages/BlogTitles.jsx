@@ -4,11 +4,14 @@ import toast from 'react-hot-toast'
 import Markdown from 'react-markdown'
 import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react'
-
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
+import { useRef } from 'react'
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 
 const BlogTitles = () => {
+  const pdfRef = useRef();
 
     const blogCategories = [
       'General', 'Technology', 'Business', 'Health', 'Lifestyle', 'Education', 'Travel', 'Food'
@@ -18,6 +21,7 @@ const BlogTitles = () => {
     const [input, setInput] = useState('')
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState('')
+    const [downLoading, setDownLoading] = useState(false)
 
     // const {getToken} = useAuth();
 
@@ -38,6 +42,34 @@ const BlogTitles = () => {
       }
       setLoading(false);
     }
+
+    const downloadAsPDF = async () => {
+  const input = pdfRef.current;
+  if (!input) return;
+
+  try {
+    const canvas = await html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff', // Ensure white background
+      logging: true,              // Enable logs to track issues
+      removeContainer: true       // Isolate styles
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('blog_titles.pdf');
+  } catch (err) {
+    console.error('PDF download error:', err);
+    toast.error('Failed to download PDF: ' + err.message);
+  }
+};
+
 
   return (
       <div className='h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700'>
@@ -74,6 +106,21 @@ const BlogTitles = () => {
           <div className='flex items-center gap-3'>
             <Hash className='w-5 h-5 text-[#8E37EB]' />
             <h1 className='text-xl font-semibold'>Generated titles</h1>
+            {content &&
+            <button
+              onClick={() => downloadAsPDF(content)}
+              className='flex justify-center items-center border-2 border-black gap-2 rounded-full text-black px-4 py-1 md:ml-10 ml-4 text-sm cursor-pointer'
+            >
+              {
+                downLoading ? (
+                  <span className='w-3 h-3 my-1 rounded-full border-2 border-t-transparent animate-spin'></span>
+                ) : (
+                  "Download"
+                )
+              }
+            </button>
+          }
+          
           </div>
 
           {!content ? (
@@ -86,11 +133,21 @@ const BlogTitles = () => {
           ) : 
           (
             <div className='mt-3 h-full overflow-y-scroll text-sm text-slate-600 '>
-              <div className='reset-tw'>
-                <Markdown>
-                  {content}
-                </Markdown>
+              <div
+                ref={pdfRef}
+                className="p-4"
+                style={{
+                  all: 'revert',                 // ✅ Undo Tailwind's normalize + theme
+                  backgroundColor: '#ffffff',   // ✅ Safe white bg
+                  color: '#000000',             // ✅ No oklch
+                  fontFamily: 'Arial, sans-serif',
+                  lineHeight: '1.6',
+                  fontSize: '14px'
+                }}
+              >
+                <Markdown>{content}</Markdown>
               </div>
+
             </div>
           )
           

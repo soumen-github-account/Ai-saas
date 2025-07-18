@@ -11,21 +11,7 @@ const AppContextProvider = (props) =>{
     const [user,setUser] = useState(false);
     const navigate = useNavigate()
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-    // const getAuthState = async ()=>{
-    //     try {
-    //         const {data} = await axios.get(backendUrl + '/api/auth/is-auth', {
-    //             withCredentials: true,
-    //           })
-    //         if(data.success){
-    //             // setIsLoggedin(true)
-    //             getUserData()
-    //         }
-    //     } catch (error) {
-    //         toast.error(error.message)
-    //     }
-    // }
-
+    
     const getUserData = async () => {
     try {
         const { data } = await axios.get(backendUrl + '/api/user/get-user', {
