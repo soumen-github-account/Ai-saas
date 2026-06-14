@@ -13,6 +13,9 @@ import Community from './pages/Community'
 import { useAuth } from '@clerk/clerk-react'
 import {Toaster} from 'react-hot-toast'
 import Login from './pages/Login'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import ContactUs from './pages/ContactUs'
+import AboutPage from './pages/AboutPage'
 const App = () => {
 
   return (
@@ -31,6 +34,9 @@ const App = () => {
           <Route path='community' element={<Community />} />
         </Route>
         <Route path='/login' element={<Login />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/contact-us' element={<ContactUs />} />
+        <Route path='/about' element={<AboutPage />} />
       </Routes>
     </div>
   )
