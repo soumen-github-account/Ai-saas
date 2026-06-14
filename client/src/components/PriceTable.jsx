@@ -54,7 +54,7 @@ const PriceTable = () => {
         }
     }
 
-    const tost = async()=>{
+    const toastErr = ()=>{
         toast.error("Disabled for demo");
     }
 
@@ -97,7 +97,7 @@ const PriceTable = () => {
                 {/*  */}
                 <button
                 // () =>{user ? paymentRazorpay("Premium") : navigate('/login')}
-                    onClick={toast}
+                    onClick={toastErr}
                     type="button"
                     className="bg-white text-sm w-full cursor-pointer py-2 rounded text-primary font-medium mt-7 hover:bg-gray-200 transition-all"
                 >
@@ -121,7 +121,7 @@ const PriceTable = () => {
                 </ul>
                 {/* () =>{user ? paymentRazorpay("Advanced") : navigate('/login')} */}
                 <button
-                    onClick={toast}
+                    onClick={toastErr}
                     type="button"
                     className="bg-primary cursor-pointer text-sm w-full py-2 rounded text-white font-medium mt-7 hover:bg-indigo-600 transition-all"
                 >
