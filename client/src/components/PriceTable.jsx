@@ -96,7 +96,8 @@ const PriceTable = () => {
                 </ul>
                 {/*  */}
                 <button
-                    onClick={() =>{user ? paymentRazorpay("Premium") : navigate('/login')}}
+                // () =>{user ? paymentRazorpay("Premium") : navigate('/login')}
+                    onClick={toast}
                     type="button"
                     className="bg-white text-sm w-full cursor-pointer py-2 rounded text-primary font-medium mt-7 hover:bg-gray-200 transition-all"
                 >
@@ -118,9 +119,9 @@ const PriceTable = () => {
                         </li>
                     ))}
                 </ul>
-                {/*  */}
+                {/* () =>{user ? paymentRazorpay("Advanced") : navigate('/login')} */}
                 <button
-                    onClick={() =>{user ? paymentRazorpay("Advanced") : navigate('/login')}}
+                    onClick={toast}
                     type="button"
                     className="bg-primary cursor-pointer text-sm w-full py-2 rounded text-white font-medium mt-7 hover:bg-indigo-600 transition-all"
                 >
